@@ -1,9 +1,9 @@
 <import src="../stars/stars-template.wxml" />
 
 <template name="movieTemplate">
-  <view class='movie-container'>
-    <image class='movie-img' src='/images/lunbo/1.jpeg'></image>
-    <text class='movie-title'>你的名字</text>
-    <template is="starTemplate" />
+  <view class='movie-container' catchtap='onMovieTap' data-movieId="{{movieId}}">
+    <image class='movie-img' src="{{coverageUrl}}"></image>
+    <text class='movie-title'>{{title}}</text>
+    <template is="starTemplate" data="{{stars:stars, score:average}}" />
   </view>
 </template>

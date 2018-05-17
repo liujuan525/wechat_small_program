@@ -17,7 +17,9 @@ Page({
     // var globalData = app.globalData;
     var postId = options.id;
     // 将postId存放到data中，便于其他方法调用
-    this.data.postCurrentId = postId;
+    this.setData({
+      postCurrentId: postId
+    });
 
     var postData = postsData.postList[postId];
     this.setData({
@@ -33,7 +35,7 @@ Page({
       this.setData({
         collected: postCollected
       })
-    } 
+    }
     else {
       // 不存在，存储当前postId下的collected值为false
       var postsCollected = {};
@@ -50,7 +52,6 @@ Page({
 
     // 音乐播放器上的按钮与图片上的音乐按钮同步
     this.setMusicMonitor();
-    
   },
 
   /**
@@ -64,14 +65,21 @@ Page({
       })
       app.globalData.g_isPlayingMusic = true;
       app.globalData.g_currentMusicPostId = that.data.postCurrentId;
-    })
+    });
     wx.onBackgroundAudioPause(function () {
       that.setData({
         isPlayingMusic: false,
       })
       app.globalData.g_isPlayingMusic = false;
       app.globalData.g_currentMusicPostId = null;
-    })
+    });
+    wx.onBackgroundAudioStop(function () {
+      that.setData({
+        isPlayingMusic: false
+      })
+      app.globalData.g_isPlayingMusic = false;
+      // app.globalData.g_currentMusicPostId = null;
+    });
   },
 
   /**
@@ -150,7 +158,7 @@ Page({
           // 更新数据绑定变量，从而实现切换图片
           that.setData({
             collected: postCollected
-          });       
+          });
 
         }else if (res.cancel) {
           console.log('用户点击取消');
